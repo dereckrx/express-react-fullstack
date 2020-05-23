@@ -1,17 +1,20 @@
-import { createStore, applyMiddleware } from 'redux';
-import createSagaMiddleware from 'redux-saga'
-import {createLogger} from 'redux-logger'
+import { createStore, applyMiddleware } from "redux";
+import createSagaMiddleware from "redux-saga";
+import { createLogger } from "redux-logger";
+import { getSagas } from "./sagas";
 
-import { reducer } from './reducer'
-import * as sagas from './sagas'
+import { reducer } from "./reducer";
 
 const sagaMiddleware = createSagaMiddleware();
-
 export const store = createStore(
-    reducer,
-    applyMiddleware(createLogger(), sagaMiddleware)
+  reducer,
+  applyMiddleware(createLogger(), sagaMiddleware)
 );
 
-for (let saga in sagas) {
-    sagaMiddleware.run(sagas[saga]);
+export function initStore(apiClient) {
+  getSagas(apiClient).forEach((saga) => {
+    sagaMiddleware.run(saga);
+  });
+
+  return store;
 }
