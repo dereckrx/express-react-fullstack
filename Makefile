@@ -17,3 +17,6 @@ db:
 
 mongo:
 	mongo
+
+push:
+	GIT_SSH_COMMAND="ssh -i ~/.ssh/id_drx_rsa -F /dev/null" git push
