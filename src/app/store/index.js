@@ -5,13 +5,13 @@ import { getSagas } from "./sagas";
 
 import { reducer } from "./reducer";
 
-const sagaMiddleware = createSagaMiddleware();
-export const store = createStore(
-  reducer,
-  applyMiddleware(createLogger(), sagaMiddleware)
-);
-
 export function initStore(apiClient) {
+  const sagaMiddleware = createSagaMiddleware();
+  const store = createStore(
+    reducer,
+    applyMiddleware(createLogger(), sagaMiddleware)
+  );
+
   getSagas(apiClient).forEach((saga) => {
     sagaMiddleware.run(saga);
   });
